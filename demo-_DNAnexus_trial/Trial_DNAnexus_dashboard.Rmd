@@ -1,0 +1,62 @@
+---
+title: "Untitled"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(tidyverse)
+library(esquisse)
+library(plotly)
+library(flexdashboard)
+library(DT)
+
+trial.dataset <- read_csv("combined datasets.csv")
+trial.dataset
+
+trial.dataset.clean <- trial.dataset %>%
+ filter(Group %in% "UKBB")
+```
+
+## Column {data-width="650"}
+
+### Chart A
+
+```{r}
+graph <- ggplot(trial.dataset.clean) +
+  aes(
+    x = hypertension,
+    y = age_at_last_follow_up,
+    fill = atrial_fibrillation
+  ) +
+  geom_boxplot() +
+  scale_fill_hue(direction = 1) +
+  theme_minimal()
+
+ggplotly(graph)
+```
+
+## Column {data-width="350"}
+
+### Chart B
+
+```{r}
+ggplot(trial.dataset.clean) +
+  aes(
+    x = hypertension,
+    y = age_at_last_follow_up,
+    fill = atrial_fibrillation
+  ) +
+  geom_boxplot() +
+  scale_fill_hue(direction = 1) +
+  theme_minimal()
+```
+
+### Chart C
+
+```{r}
+datatable(trial.dataset.clean)
+```
